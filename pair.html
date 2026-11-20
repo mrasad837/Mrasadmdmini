@@ -814,57 +814,7 @@ h1:last-of-type {
         </button>
 
         <button class="dc-btn" onclick="disconnectBot()" id="dcBtn">
-            <span class="btn-inner"><i class="fas fa-unlink"></i> DISCONNECT</span>
-        </button>
-    </div>
-
-    <!-- ─── RESULT ─── -->
-    <div class="result-box" id="borderBox">
-        <div class="result-inner" id="resultInner">
-            <div id="codeBox">----</div>
-            <button class="copy-btn" id="copyBtn" style="display:none;" onclick="copyCode()">
-                <i class="fas fa-copy"></i> Copy Code
-            </button>
-        </div>
-    </div>
-
-    <!-- ─── STATUS ─── -->
-    <div class="status-indicator">
-        <span class="status-dot online" id="statusDot"></span>
-        <span class="status-text" id="statusText">Server Online</span>
-    </div>
-
-    <!-- ─── BADGES ─── -->
-    <div class="badge-group">
-        <span class="badge"><i class="fas fa-robot"></i> WhatsApp Bot</span>
-        <span class="badge"><i class="fas fa-bolt"></i> MRASAD-MD</span>
-        <span class="badge"><i class="fas fa-crown"></i> Premium</span>
-    </div>
-
-    <!-- ─── FOOTER ─── -->
-    <div class="footer">
-        <span class="heart">♥</span> Made with <span class="heart">♥</span> by 
-        <span class="dev"><i class="fas fa-crown"></i> ᴍʀᴀsᴀᴅ-ᴍᴅ <i class="fas fa-crown"></i></span>
-        <div class="dev">🌸 MRASAD-MD MINI v2.0</div>
-    </div>
-
-</div>
-
-<!-- ============================================
-     🌸 JAVASCRIPT
-     ============================================ -->
-<script>
-// ============================================
-// 📱 PAIRING SYSTEM - FULLY FIXED
-// ============================================
-
-let isLoading = false;
-let currentNumber = '';
-let currentCode = '';
-
-// ─── PARTICLES ───
-function createParticles() {
-    const container = document.getElementById('particles');
+            <span class="btn-inner"><i-btnlementById('particles');
     const count = 40;
     for (let i = 0; i < count; i++) {
         const particle = document.createElement('div');
