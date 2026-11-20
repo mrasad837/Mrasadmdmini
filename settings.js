@@ -144,7 +144,7 @@ module.exports = {
     REJECT_MSG: '📵 Call rejected by bot',
 
     // ... rest of settings ...
-};
+
     // ═══════════════════════════════════════════
     //  👁️ STATUS AUTOMATION
     // ═══════════════════════════════════════════
