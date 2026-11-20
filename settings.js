@@ -144,7 +144,7 @@ module.exports = {
     REJECT_MSG: '📵 Call rejected by bot',
 
     // ... rest of settings ...
-};
+
     // ═══════════════════════════════════════════
     //  👁️ STATUS AUTOMATION
     // ═══════════════════════════════════════════
@@ -347,6 +347,107 @@ module.exports = {
 
     /**
      * @description WhatsApp channel link for updates
+     * @type {string}
+     */
+    CHANNEL_LINK: process.env.CHANNEL_LINK || 'https://whatsapp.com/channel/0029VbEGNsnAjPXGtkhIAL3G',
+
+    /**
+     * @description WhatsApp group invite link
+     * @type {string}
+     */
+    GROUP_LINK: process.env.GROUP_LINK || 'https://chat.whatsapp.com/KCGPeSBdN4d0E7qfQptONd',
+
+    /**
+     * @description Owner WhatsApp link
+     * @type {string}
+     */
+    OWNER_LINK: process.env.OWNER_LINK || 'https://wa.me/923415852837',
+
+    /**
+     * @description Repository link
+     * @type {string}
+     */
+    REPO: process.env.REPO || 'https://github.com/Mrasadmdmini',
+
+    // ═══════════════════════════════════════════
+    //  🐛 DEBUG & LOGGING
+    // ═══════════════════════════════════════════
+
+    /**
+     * @description Enable debug mode
+     * @type {string}
+     */
+    DEBUG: process.env.DEBUG || 'false',
+
+    /**
+     * @description Enable logging
+     * @type {string}
+     */
+    LOGGING_ENABLED: process.env.LOGGING_ENABLED || 'true',
+
+    // ═══════════════════════════════════════════
+    //  📡 BAILEYS
+    // ═══════════════════════════════════════════
+
+    /**
+     * @description Baileys package name
+     * @type {string}
+     */
+    BAILEYS: '@whiskeysockets/baileys',
+
+    // ═══════════════════════════════════════════
+    //  🔗 TELEGRAM (Optional)
+    // ═══════════════════════════════════════════
+
+    /**
+     * @description Telegram bot token for notifications
+     * @type {string}
+     */
+    TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN || '',
+
+    /**
+     * @description Telegram chat ID for sending notifications
+     * @type {string}
+     */
+    TELEGRAM_CHAT_ID: process.env.TELEGRAM_CHAT_ID || ''
+
+};
+
+// ──────────────────────────────────────────────
+//  📖 USAGE EXAMPLE
+// ──────────────────────────────────────────────
+
+/**
+ * @example
+ * // Import configuration
+ * const config = require('./settings');
+ * 
+ * // Access bot settings
+ * console.log(`Bot: ${config.BOT_NAME}`);
+ * console.log(`Prefix: ${config.PREFIX}`);
+ * console.log(`Owner: ${config.OWNER_NUMBER}`);
+ * 
+ * // Check if auto-view status is enabled
+ * if (config.AUTO_STATUS_SEEN === 'true') {
+ *     console.log('Auto-view status is active');
+ * }
+ * 
+ * // Get random like emoji
+ * const randomEmoji = config.AUTO_STATUS_EMOJIS[Math.floor(Math.random() * config.AUTO_STATUS_EMOJIS.length)];
+ */
+
+// ──────────────────────────────────────────────
+//  🏷️ EXPORT METADATA
+// ──────────────────────────────────────────────
+
+/**
+ * @module settings
+ * @description MISHU-MD MINI Configuration Module
+ * @version 2.0.0
+ * @author ᴀʀꜱʟᴀɴ-ᴍᴅ
+ * @license MIT
+ */
+ption WhatsApp channel link for updates
      * @type {string}
      */
     CHANNEL_LINK: process.env.CHANNEL_LINK || 'https://whatsapp.com/channel/0029VbEGNsnAjPXGtkhIAL3G',
