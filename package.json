@@ -4,7 +4,7 @@
   "description": "WhatsApp Bot Base Created By ArslanMD Official",
   "main": "index.js",
   "engines": {
-    "node": "20.x"
+    "node": "26.x"
   },
   "scripts": {
     "start": "node index.js"
