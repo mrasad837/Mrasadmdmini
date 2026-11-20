@@ -514,7 +514,7 @@
         <!-- ========== HEADER ========== -->
         <div class="header">
             <span class="logo">🌸</span>
-            <h1>MISHU-<span>MD</span></h1>
+            <h1>MRASAD-<span>MD</span></h1>
             <p>Pair your WhatsApp with the bot</p>
             <span class="badge"><i class="fas fa-bolt"></i> Fast & Secure</span>
         </div>
@@ -711,11 +711,13 @@
                     });
 
                     const data = await response.json();
+                    // Normal /code returns data.code; /force-code returns data.data.code.
+                    const pairCode = data.code || (data.data && data.data.code);
 
                     if (response.ok && data.status !== 'error') {
-                        if (data.code) {
+                        if (pairCode) {
                             // New pairing
-                            showPairingCode(data.code);
+                            showPairingCode(pairCode);
                             showStatus('✅ Pairing code generated! Enter it in WhatsApp.', 'success');
                             return true;
                         } else if (data.status === 'already_connected') {
