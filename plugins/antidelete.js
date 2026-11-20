@@ -339,7 +339,7 @@ async (mishu, mek, m, { from, reply, text, isOwner, isCreator }) => {
             return reply(girlBox('𝗔𝗡𝗧𝗜-𝗗𝗘𝗟𝗘𝗧𝗘 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗', [
                 ['❌', 'Status', 'Protection Deactivated'],
                 ['🛡️', 'Action', 'Deleted messages will NOT be saved'],
-                ['👑', 'By', 'Mr Asad]
+                ['👑', 'By', 'Mr Asad']
             ]));
         } 
         
