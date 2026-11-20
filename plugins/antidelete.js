@@ -339,6 +339,212 @@ async (mishu, mek, m, { from, reply, text, isOwner, isCreator }) => {
             return reply(girlBox('𝗔𝗡𝗧𝗜-𝗗𝗘𝗟𝗘𝗧𝗘 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗', [
                 ['❌', 'Status', 'Protection Deactivated'],
                 ['🛡️', 'Action', 'Deleted messages will NOT be saved'],
+                ['👑', 'By', 'Mr Asad']
+            ]));
+        } 
+        
+        // 📋 VIEW DELETED MESSAGES
+        if (action === 'list' || action === 'view') {
+            if (deletedMessages.size === 0) {
+                return reply(`🌸 No deleted messages saved yet! 💕`);
+            }
+            
+            let list = `📋 *Deleted Messages* (${deletedMessages.size})\n\n`;
+            let count = 0;
+            for (const [key, info] of deletedMessages) {
+                count++;
+                list += `${count}. ${info.senderName}: ${info.content.substring(0, 50)}${info.content.length > 50 ? '...' : ''}\n`;
+                if (count >= 10) break;
+            }
+            list += `\n📌 Use .antidelete clear to clear all`;
+            
+            return reply(list);
+        }
+        
+        // 🗑️ CLEAR DELETED MESSAGES
+        if (action === 'clear') {
+            await clearDeletedMessages();
+            return reply(`🌸 All deleted messages cleared! 💖`);
+        }
+        
+        // ❓ HELP
+        return reply(girlBox('𝗔𝗡𝗧𝗜-𝗗𝗘𝗟𝗘𝗧𝗘 𝗛𝗘𝗟𝗣', [
+            ['📌', 'Commands', ''],
+            ['🟢', 'Enable', '.antidelete on'],
+            ['🔴', 'Disable', '.antidelete off'],
+            ['📊', 'Status', '.antidelete status'],
+            ['📋', 'List', '.antidelete list'],
+            ['🗑️', 'Clear', '.antidelete clear']
+        ]));
+        
+    } catch (error) {
+        console.error("🌸 Anti-Delete Error:", error);
+        return reply(`🌸 Error: ${error.message} 💕`);
+    }
+});
+
+// ============================================
+// 🔥 API ROUTES FOR ANTI-DELETE
+// ============================================
+
+// These will be added to main.js routes
+const antiDeleteRoutes = {
+    // Get deleted messages
+    getLogs: (req, res) => {
+        const limit = parseInt(req.query.limit) || 20;
+        const logs = getDeletedMessages(limit);
+        res.json({
+            status: true,
+            data: {
+                total: deletedMessages.size,
+                messages: logs
+            }
+        });
+    },
+    
+    // Clear deleted messages
+    clearLogs: async (req, res) => {
+        await clearDeletedMessages();
+        res.json({
+            status: true,
+            message: 'Deleted messages cleared successfully'
+        });
+    },
+    
+    // Toggle anti-delete
+    toggle: (req, res) => {
+        const { enable } = req.query;
+        if (enable === 'true') {
+            antiDeleteEnabled = true;
+        } else if (enable === 'false') {
+            antiDeleteEnabled = false;
+        }
+        res.json({
+            status: true,
+            data: {
+                enabled: antiDeleteEnabled,
+                deletedCount: deletedMessages.size
+            }
+        });
+    }
+};
+
+// ============================================
+// 📤 EXPORT
+// ============================================
+
+module.exports = {
+    handleAntiDelete,
+    antiDeleteEnabled,
+    getDeletedMessages,
+    clearDeletedMessages,
+    antiDeleteRoutes,
+    deletedMessages
+};
+
+console.log('🌸 ANTI-DELETE plugin loaded successfully! 💖');
+                            
+                            if (ownerJid) {
+                                const ownerMsg = `╭────────────────────◇
+│ 💕⃝🕊️ 𝗠𝗿𝗔𝘀𝗮𝗱 𝗠𝗗 𝗠𝗶𝗻𝗶 💕⃝🕊️
+│  ✿━━━━━━━━━━━━━━━✿
+│  ✿ 👤 Sender: ${senderName}
+│  ✿ 📝 Content: ${content}
+│  ✿ 📁 Type: ${msgType}${mediaType ? ` (${mediaType})` : ''}
+│  ✿ 👥 Group: ${isGroup ? groupName : 'Private Chat'}
+│  ✿ 🆔 ID: ${deletedMsgId}
+│  ✿ 🕐 Time: ${new Date().toLocaleString()}
+│  ✿ ━━━━━━━━━━━━━━━✿
+│🦋⃟ 𝙈𝙍𝘼𝙎𝘼𝘿-𝙈𝘿 𝙈𝙄𝙉𝙄 🦋⃟‌💙
+╰────────────────────○`;
+                                
+                                await conn.sendMessage(ownerJid, { text: ownerMsg });
+                                console.log(`[AntiDelete] ✅ Forwarded to owner`);
+                            }
+                        } catch (e) {
+                            console.error('[AntiDelete] Forward error:', e.message);
+                        }
+                    }
+                }
+            } catch (updateError) {
+                console.error('[AntiDelete] Update error:', updateError.message);
+            }
+        }
+        
+    } catch (error) {
+        console.error('[AntiDelete] Fatal error:', error.message);
+    }
+}
+
+// ============================================
+// 📊 GET DELETED MESSAGES
+// ============================================
+function getDeletedMessages(limit = 20) {
+    const entries = Array.from(deletedMessages.entries());
+    const recent = entries.slice(-limit).reverse();
+    return recent.map(([key, value]) => ({ key, ...value }));
+}
+
+// ============================================
+// 🗑️ CLEAR DELETED MESSAGES
+// ============================================
+async function clearDeletedMessages() {
+    deletedMessages.clear();
+    await saveDeletedToFile();
+    return true;
+}
+
+// ============================================
+// 👑 ANTI-DELETE COMMAND
+// ============================================
+
+mishu({
+    pattern: "antidelete",
+    alias: ['antidel', 'ad', 'adel'],
+    react: "🌸",
+    desc: "🌸 Toggle anti-delete feature",
+    category: "security",
+    filename: __filename
+},
+async (mishu, mek, m, { from, reply, text, isOwner, isCreator }) => {
+    try {
+        // 👑 Only Queen/Owner can use
+        if (!isOwner && !isCreator) {
+            return reply(`🌸 Only my Queen can use this! 👸💖`);
+        }
+        
+        const action = (text || '').toLowerCase().trim();
+        
+        // 📊 STATUS CHECK
+        if (!action || action === 'status') {
+            const statusEmoji = antiDeleteEnabled ? '🟢' : '🔴';
+            const statusText = antiDeleteEnabled ? '✅ ENABLED' : '❌ DISABLED';
+            
+            return reply(girlBox('𝗔𝗡𝗧𝗜-𝗗𝗘𝗟𝗘𝗧𝗘 𝗦𝗧𝗔𝗧𝗨𝗦', [
+                [statusEmoji, 'Status', statusText],
+                ['🛡️', 'Protection', antiDeleteEnabled ? 'Active' : 'Inactive'],
+                ['💾', 'Deleted Msgs', `${deletedMessages.size} saved`],
+                ['👑', 'Managed by', 'Asad']
+            ]));
+        }
+        
+        // ✅ ENABLE
+        if (action === 'on' || action === 'enable' || action === 'true') {
+            antiDeleteEnabled = true;
+            return reply(girlBox('𝗔𝗡𝗧𝗜-𝗗𝗘𝗟𝗘𝗧𝗘 𝗘𝗡𝗔𝗕𝗟𝗘𝗗', [
+                ['✅', 'Status', 'Protection Activated'],
+                ['🛡️', 'Action', 'Deleted messages will be saved'],
+                ['💾', 'Delivery', 'Sent to owner DM'],
+                ['👑', 'By', 'Mr Asad']
+            ]));
+        } 
+        
+        // ❌ DISABLE
+        if (action === 'off' || action === 'disable' || action === 'false') {
+            antiDeleteEnabled = false;
+            return reply(girlBox('𝗔𝗡𝗧𝗜-𝗗𝗘𝗟𝗘𝗧𝗘 𝗗𝗜𝗦𝗔𝗕𝗟𝗘𝗗', [
+                ['❌', 'Status', 'Protection Deactivated'],
+                ['🛡️', 'Action', 'Deleted messages will NOT be saved'],
                 ['👑', 'By', 'Mr Asad]
             ]));
         } 
